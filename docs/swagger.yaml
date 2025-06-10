@@ -1,0 +1,102 @@
+basePath: /api
+definitions:
+  v1.doSaveTodoRequest:
+    properties:
+      task:
+        type: string
+    required:
+    - task
+    type: object
+info:
+  contact: {}
+  description: movie search and autocomplete
+  title: AlexandrKudryavtsev/GoMovieSearch
+  version: "1.0"
+paths:
+  /healthz:
+    get:
+      operationId: healthz
+      responses:
+        "200":
+          description: OK
+        "500":
+          description: Internal Server Error
+      summary: Check server healthz
+      tags:
+      - common
+  /todos:
+    post:
+      consumes:
+      - application/json
+      description: Create todo
+      operationId: create-todo
+      parameters:
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/v1.doSaveTodoRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "500":
+          description: Internal Server Error
+      summary: Create todo
+      tags:
+      - todos
+  /todos/:
+    get:
+      consumes:
+      - application/json
+      description: Get all todos
+      operationId: get-all-todos
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "500":
+          description: Internal Server Error
+      summary: Get all toos
+      tags:
+      - todos
+  /todos/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get todo by id
+      operationId: get-todo-by-id
+      parameters:
+      - description: Todo ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+        "404":
+          description: Not Found
+        "500":
+          description: Internal Server Error
+      security:
+      - BearerAuth: []
+      summary: Get todo by id
+      tags:
+      - todos
+schemes:
+- https
+- http
+securityDefinitions:
+  BearerAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
