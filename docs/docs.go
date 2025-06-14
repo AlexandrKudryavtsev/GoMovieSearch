@@ -32,9 +32,9 @@ const docTemplate = `{
                 }
             }
         },
-        "/movie/autocomplete": {
+        "/movies/autocomplete": {
             "get": {
-                "description": "Get movie autocomplete",
+                "description": "Get movie suggestions for autocomplete",
                 "consumes": [
                     "application/json"
                 ],
@@ -42,129 +42,59 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "movie"
+                    "movies"
                 ],
-                "summary": "Get movie autocomplete",
-                "operationId": "get-movie-autocomplete",
-                "responses": {
-                    "200": {
-                        "description": "OK"
-                    },
-                    "500": {
-                        "description": "Internal Server Error"
-                    }
-                }
-            }
-        },
-        "/movie/index": {
-            "post": {
-                "description": "Index movies",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "movie"
-                ],
-                "summary": "Index movies",
-                "operationId": "post-movie-index",
-                "responses": {
-                    "200": {
-                        "description": "OK"
-                    },
-                    "500": {
-                        "description": "Internal Server Error"
-                    }
-                }
-            }
-        },
-        "/todos": {
-            "post": {
-                "description": "Create todo",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "todos"
-                ],
-                "summary": "Create todo",
-                "operationId": "create-todo",
+                "summary": "Autocomplete movies",
+                "operationId": "autocomplete-movies",
                 "parameters": [
                     {
-                        "description": "query params",
+                        "type": "string",
+                        "description": "Autocomplete query",
+                        "name": "query",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "data: []entity.Movie",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/movies/index": {
+            "post": {
+                "description": "Add or update movies in search index",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "movies"
+                ],
+                "summary": "Index movies",
+                "operationId": "index-movies",
+                "parameters": [
+                    {
+                        "description": "Movies data",
                         "name": "request",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/v1.doSaveTodoRequest"
+                            "$ref": "#/definitions/v1.doIndexMoviesRequest"
                         }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK"
-                    },
-                    "500": {
-                        "description": "Internal Server Error"
-                    }
-                }
-            }
-        },
-        "/todos/": {
-            "get": {
-                "description": "Get all todos",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "todos"
-                ],
-                "summary": "Get all toos",
-                "operationId": "get-all-todos",
-                "responses": {
-                    "200": {
-                        "description": "OK"
-                    },
-                    "500": {
-                        "description": "Internal Server Error"
-                    }
-                }
-            }
-        },
-        "/todos/{id}": {
-            "get": {
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ],
-                "description": "Get todo by id",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "todos"
-                ],
-                "summary": "Get todo by id",
-                "operationId": "get-todo-by-id",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "Todo ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
                     }
                 ],
                 "responses": {
@@ -174,8 +104,45 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request"
                     },
-                    "404": {
-                        "description": "Not Found"
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/movies/search": {
+            "get": {
+                "description": "Search movies by query",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "movies"
+                ],
+                "summary": "Search movies",
+                "operationId": "search-movies",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Search query",
+                        "name": "query",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "data: []entity.Movie",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
                     },
                     "500": {
                         "description": "Internal Server Error"
@@ -185,14 +152,37 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "v1.doSaveTodoRequest": {
+        "entity.Movie": {
+            "type": "object",
+            "properties": {
+                "detailsUrl": {
+                    "type": "string"
+                },
+                "originalTitle": {
+                    "type": "string"
+                },
+                "posterUrl": {
+                    "type": "string"
+                },
+                "russianTitle": {
+                    "type": "string"
+                },
+                "year": {
+                    "type": "string"
+                }
+            }
+        },
+        "v1.doIndexMoviesRequest": {
             "type": "object",
             "required": [
-                "task"
+                "movies"
             ],
             "properties": {
-                "task": {
-                    "type": "string"
+                "movies": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/entity.Movie"
+                    }
                 }
             }
         }

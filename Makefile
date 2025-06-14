@@ -44,7 +44,7 @@ integration-test: ### Run integration tests
 ##@ Development Tools
 
 generate-docs: ### Generate API docs
-	swag init -g cmd/app/main.go
+	./bin/swag init -g cmd/app/main.go
 .PHONY: generate-docs
 
 mock: ### Generate mocks
