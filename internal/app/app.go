@@ -9,11 +9,9 @@ import (
 
 	"github.com/AlexandrKudryavtsev/GoMovieSearch/config"
 	v1 "github.com/AlexandrKudryavtsev/GoMovieSearch/internal/controller/http/v1"
-	"github.com/AlexandrKudryavtsev/GoMovieSearch/internal/usecase"
-	"github.com/AlexandrKudryavtsev/GoMovieSearch/internal/usecase/repo"
+	elastic "github.com/AlexandrKudryavtsev/GoMovieSearch/pkg/elasticsearch"
 	"github.com/AlexandrKudryavtsev/GoMovieSearch/pkg/httpserver"
 	"github.com/AlexandrKudryavtsev/GoMovieSearch/pkg/logger"
-	"github.com/AlexandrKudryavtsev/GoMovieSearch/pkg/postgres"
 	"github.com/gin-gonic/gin"
 )
 
@@ -24,17 +22,15 @@ func Run(cfg *config.Config) {
 	}
 	logger.Info("logger init")
 
-	pg, err := postgres.New(cfg.PG.URL, postgres.MaxPoolSize(cfg.PG.PoolMax))
+	elasticSearch, err := elastic.New(elastic.Addresses(cfg.Elastic.Addresses), elastic.ConnAttempts(cfg.Elastic.ConnAttempts), elastic.ConnTimeout(cfg.Elastic.ConnTimeout))
 	if err != nil {
-		log.Fatalf("can't init postgres: %s", err)
+		logger.Fatal("can't init elastic: %s", err)
 	}
-	defer pg.Close()
 
-	todosRepo := repo.New(pg)
-	todosUseCase := usecase.NewTodosUseCase(todosRepo)
+	_ = elasticSearch
 
 	handler := gin.New()
-	v1.NewRouter(handler, logger, todosUseCase)
+	v1.NewRouter(handler, logger)
 
 	httpServer := httpserver.New(handler, httpserver.Port(cfg.HTTP.Port))
 

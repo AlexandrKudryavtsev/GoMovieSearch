@@ -12,136 +12,136 @@ import (
 	gomock "github.com/golang/mock/gomock"
 )
 
-// MockTodos is a mock of Todos interface.
-type MockTodos struct {
+// MockMovies is a mock of Movies interface.
+type MockMovies struct {
 	ctrl     *gomock.Controller
-	recorder *MockTodosMockRecorder
+	recorder *MockMoviesMockRecorder
 }
 
-// MockTodosMockRecorder is the mock recorder for MockTodos.
-type MockTodosMockRecorder struct {
-	mock *MockTodos
+// MockMoviesMockRecorder is the mock recorder for MockMovies.
+type MockMoviesMockRecorder struct {
+	mock *MockMovies
 }
 
-// NewMockTodos creates a new mock instance.
-func NewMockTodos(ctrl *gomock.Controller) *MockTodos {
-	mock := &MockTodos{ctrl: ctrl}
-	mock.recorder = &MockTodosMockRecorder{mock}
+// NewMockMovies creates a new mock instance.
+func NewMockMovies(ctrl *gomock.Controller) *MockMovies {
+	mock := &MockMovies{ctrl: ctrl}
+	mock.recorder = &MockMoviesMockRecorder{mock}
 	return mock
 }
 
 // EXPECT returns an object that allows the caller to indicate expected use.
-func (m *MockTodos) EXPECT() *MockTodosMockRecorder {
+func (m *MockMovies) EXPECT() *MockMoviesMockRecorder {
 	return m.recorder
 }
 
-// SaveTodo mocks base method.
-func (m *MockTodos) SaveTodo(ctx context.Context, task string) error {
+// Autocomplete mocks base method.
+func (m *MockMovies) Autocomplete(ctx context.Context, query string) ([]entity.Movie, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SaveTodo", ctx, task)
+	ret := m.ctrl.Call(m, "Autocomplete", ctx, query)
+	ret0, _ := ret[0].([]entity.Movie)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// Autocomplete indicates an expected call of Autocomplete.
+func (mr *MockMoviesMockRecorder) Autocomplete(ctx, query interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Autocomplete", reflect.TypeOf((*MockMovies)(nil).Autocomplete), ctx, query)
+}
+
+// Index mocks base method.
+func (m *MockMovies) Index(ctx context.Context, data []entity.Movie) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Index", ctx, data)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
-// SaveTodo indicates an expected call of SaveTodo.
-func (mr *MockTodosMockRecorder) SaveTodo(ctx, task interface{}) *gomock.Call {
+// Index indicates an expected call of Index.
+func (mr *MockMoviesMockRecorder) Index(ctx, data interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SaveTodo", reflect.TypeOf((*MockTodos)(nil).SaveTodo), ctx, task)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Index", reflect.TypeOf((*MockMovies)(nil).Index), ctx, data)
 }
 
-// TodoByID mocks base method.
-func (m *MockTodos) TodoByID(ctx context.Context, id uint64) (*entity.Todo, error) {
+// Search mocks base method.
+func (m *MockMovies) Search(ctx context.Context, query string) ([]entity.Movie, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "TodoByID", ctx, id)
-	ret0, _ := ret[0].(*entity.Todo)
+	ret := m.ctrl.Call(m, "Search", ctx, query)
+	ret0, _ := ret[0].([]entity.Movie)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// TodoByID indicates an expected call of TodoByID.
-func (mr *MockTodosMockRecorder) TodoByID(ctx, id interface{}) *gomock.Call {
+// Search indicates an expected call of Search.
+func (mr *MockMoviesMockRecorder) Search(ctx, query interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "TodoByID", reflect.TypeOf((*MockTodos)(nil).TodoByID), ctx, id)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Search", reflect.TypeOf((*MockMovies)(nil).Search), ctx, query)
 }
 
-// Todos mocks base method.
-func (m *MockTodos) Todos(ctx context.Context) ([]entity.Todo, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Todos", ctx)
-	ret0, _ := ret[0].([]entity.Todo)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
-}
-
-// Todos indicates an expected call of Todos.
-func (mr *MockTodosMockRecorder) Todos(ctx interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Todos", reflect.TypeOf((*MockTodos)(nil).Todos), ctx)
-}
-
-// MockTodosRepo is a mock of TodosRepo interface.
-type MockTodosRepo struct {
+// MockMoviesRepo is a mock of MoviesRepo interface.
+type MockMoviesRepo struct {
 	ctrl     *gomock.Controller
-	recorder *MockTodosRepoMockRecorder
+	recorder *MockMoviesRepoMockRecorder
 }
 
-// MockTodosRepoMockRecorder is the mock recorder for MockTodosRepo.
-type MockTodosRepoMockRecorder struct {
-	mock *MockTodosRepo
+// MockMoviesRepoMockRecorder is the mock recorder for MockMoviesRepo.
+type MockMoviesRepoMockRecorder struct {
+	mock *MockMoviesRepo
 }
 
-// NewMockTodosRepo creates a new mock instance.
-func NewMockTodosRepo(ctrl *gomock.Controller) *MockTodosRepo {
-	mock := &MockTodosRepo{ctrl: ctrl}
-	mock.recorder = &MockTodosRepoMockRecorder{mock}
+// NewMockMoviesRepo creates a new mock instance.
+func NewMockMoviesRepo(ctrl *gomock.Controller) *MockMoviesRepo {
+	mock := &MockMoviesRepo{ctrl: ctrl}
+	mock.recorder = &MockMoviesRepoMockRecorder{mock}
 	return mock
 }
 
 // EXPECT returns an object that allows the caller to indicate expected use.
-func (m *MockTodosRepo) EXPECT() *MockTodosRepoMockRecorder {
+func (m *MockMoviesRepo) EXPECT() *MockMoviesRepoMockRecorder {
 	return m.recorder
 }
 
-// GetAllTodos mocks base method.
-func (m *MockTodosRepo) GetAllTodos(ctx context.Context) ([]entity.Todo, error) {
+// Autocomplete mocks base method.
+func (m *MockMoviesRepo) Autocomplete(ctx context.Context, query string) ([]entity.Movie, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetAllTodos", ctx)
-	ret0, _ := ret[0].([]entity.Todo)
+	ret := m.ctrl.Call(m, "Autocomplete", ctx, query)
+	ret0, _ := ret[0].([]entity.Movie)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// GetAllTodos indicates an expected call of GetAllTodos.
-func (mr *MockTodosRepoMockRecorder) GetAllTodos(ctx interface{}) *gomock.Call {
+// Autocomplete indicates an expected call of Autocomplete.
+func (mr *MockMoviesRepoMockRecorder) Autocomplete(ctx, query interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAllTodos", reflect.TypeOf((*MockTodosRepo)(nil).GetAllTodos), ctx)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Autocomplete", reflect.TypeOf((*MockMoviesRepo)(nil).Autocomplete), ctx, query)
 }
 
-// GetTodoByID mocks base method.
-func (m *MockTodosRepo) GetTodoByID(ctx context.Context, id uint64) (*entity.Todo, error) {
+// Index mocks base method.
+func (m *MockMoviesRepo) Index(ctx context.Context, data []entity.Movie) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetTodoByID", ctx, id)
-	ret0, _ := ret[0].(*entity.Todo)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
-}
-
-// GetTodoByID indicates an expected call of GetTodoByID.
-func (mr *MockTodosRepoMockRecorder) GetTodoByID(ctx, id interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetTodoByID", reflect.TypeOf((*MockTodosRepo)(nil).GetTodoByID), ctx, id)
-}
-
-// SaveTodo mocks base method.
-func (m *MockTodosRepo) SaveTodo(ctx context.Context, task string) error {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SaveTodo", ctx, task)
+	ret := m.ctrl.Call(m, "Index", ctx, data)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
-// SaveTodo indicates an expected call of SaveTodo.
-func (mr *MockTodosRepoMockRecorder) SaveTodo(ctx, task interface{}) *gomock.Call {
+// Index indicates an expected call of Index.
+func (mr *MockMoviesRepoMockRecorder) Index(ctx, data interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SaveTodo", reflect.TypeOf((*MockTodosRepo)(nil).SaveTodo), ctx, task)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Index", reflect.TypeOf((*MockMoviesRepo)(nil).Index), ctx, data)
+}
+
+// Search mocks base method.
+func (m *MockMoviesRepo) Search(ctx context.Context, query string) ([]entity.Movie, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Search", ctx, query)
+	ret0, _ := ret[0].([]entity.Movie)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// Search indicates an expected call of Search.
+func (mr *MockMoviesRepoMockRecorder) Search(ctx, query interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Search", reflect.TypeOf((*MockMoviesRepo)(nil).Search), ctx, query)
 }

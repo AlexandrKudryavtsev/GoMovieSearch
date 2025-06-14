@@ -3,15 +3,16 @@ package config
 import (
 	"fmt"
 	"strings"
+	"time"
 
 	"github.com/ilyakaznacheev/cleanenv"
 )
 
 type (
 	Config struct {
-		HTTP HTTP `yaml:"http"`
-		Log  Log  `yaml:"logger"`
-		PG   PG   `yaml:"postgres"`
+		HTTP    HTTP    `yaml:"http"`
+		Log     Log     `yaml:"logger"`
+		Elastic Elastic `yaml:"elastic"`
 	}
 
 	HTTP struct {
@@ -20,12 +21,15 @@ type (
 
 	Log struct {
 		Level       string `yaml:"level"`
-		Destination string `yaml:"destination" env:"LOG_DESTINATION"`		
+		Destination string `yaml:"destination" env:"LOG_DESTINATION"`
 	}
 
-	PG struct {
-		PoolMax int    `yaml:"pool_max" env:"PG_POOL_MAX"`
-		URL     string `yaml:"pg_url" env:"PG_URL"`
+	Elastic struct {
+		Addresses    []string      `yaml:"addresses" env:"ES_ADDRESSES" env-separator:","`
+		Username     string        `yaml:"username" env:"ES_USERNAME"`
+		Password     string        `yaml:"password" env:"ES_PASSWORD"`
+		ConnTimeout  time.Duration `yaml:"conn_timeout" env:"ES_CONN_TIMEOUT"`
+		ConnAttempts int           `yaml:"conn_attempts" env:"ES_CONN_ATTEMPTS"`
 	}
 )
 

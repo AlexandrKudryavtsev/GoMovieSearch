@@ -24,6 +24,38 @@ paths:
       summary: Check server healthz
       tags:
       - common
+  /movie/autocomplete:
+    get:
+      consumes:
+      - application/json
+      description: Get movie autocomplete
+      operationId: get-movie-autocomplete
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "500":
+          description: Internal Server Error
+      summary: Get movie autocomplete
+      tags:
+      - movie
+  /movie/index:
+    post:
+      consumes:
+      - application/json
+      description: Index movies
+      operationId: post-movie-index
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "500":
+          description: Internal Server Error
+      summary: Index movies
+      tags:
+      - movie
   /todos:
     post:
       consumes:

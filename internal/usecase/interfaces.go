@@ -7,15 +7,15 @@ import (
 )
 
 type (
-	Todos interface {
-		Todos(ctx context.Context) ([]entity.Todo, error)
-		TodoByID(ctx context.Context, id uint64) (*entity.Todo, error)
-		SaveTodo(ctx context.Context, task string) error
+	Movies interface {
+		Index(ctx context.Context, data []entity.Movie) error
+		Autocomplete(ctx context.Context, query string) ([]entity.Movie, error)
+		Search(ctx context.Context, query string) ([]entity.Movie, error)
 	}
 
-	TodosRepo interface {
-		GetAllTodos(ctx context.Context) ([]entity.Todo, error)
-		GetTodoByID(ctx context.Context, id uint64) (*entity.Todo, error)
-		SaveTodo(ctx context.Context, task string) error
+	MoviesRepo interface {
+		Index(ctx context.Context, data []entity.Movie) error
+		Autocomplete(ctx context.Context, query string) ([]entity.Movie, error)
+		Search(ctx context.Context, query string) ([]entity.Movie, error)
 	}
 )

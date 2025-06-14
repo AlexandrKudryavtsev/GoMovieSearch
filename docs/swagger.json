@@ -29,6 +29,54 @@
                 }
             }
         },
+        "/movie/autocomplete": {
+            "get": {
+                "description": "Get movie autocomplete",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "movie"
+                ],
+                "summary": "Get movie autocomplete",
+                "operationId": "get-movie-autocomplete",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/movie/index": {
+            "post": {
+                "description": "Index movies",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "movie"
+                ],
+                "summary": "Index movies",
+                "operationId": "post-movie-index",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
         "/todos": {
             "post": {
                 "description": "Create todo",

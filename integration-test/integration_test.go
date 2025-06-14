@@ -49,12 +49,3 @@ func healthCheck(attempts int) error {
 
 	return err
 }
-
-func TestHTTPTodos(t *testing.T) {
-	Test(t,
-		Description("Todos Success"),
-		Get(basePath+"/todos"),
-		Expect().Status().Equal(http.StatusOK),
-		Expect().Body().String().Contains(`{"data":[{`),
-	)
-}
