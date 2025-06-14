@@ -17,5 +17,6 @@ type (
 		Index(ctx context.Context, data []entity.Movie) error
 		Autocomplete(ctx context.Context, query string) ([]entity.Movie, error)
 		Search(ctx context.Context, query string) ([]entity.Movie, error)
+		CreateIndex(ctx context.Context) error
 	}
 )

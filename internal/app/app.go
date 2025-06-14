@@ -1,6 +1,7 @@
 package app
 
 import (
+	"context"
 	"fmt"
 	"log"
 	"os"
@@ -9,6 +10,8 @@ import (
 
 	"github.com/AlexandrKudryavtsev/GoMovieSearch/config"
 	v1 "github.com/AlexandrKudryavtsev/GoMovieSearch/internal/controller/http/v1"
+	"github.com/AlexandrKudryavtsev/GoMovieSearch/internal/usecase"
+	"github.com/AlexandrKudryavtsev/GoMovieSearch/internal/usecase/repo"
 	elastic "github.com/AlexandrKudryavtsev/GoMovieSearch/pkg/elasticsearch"
 	"github.com/AlexandrKudryavtsev/GoMovieSearch/pkg/httpserver"
 	"github.com/AlexandrKudryavtsev/GoMovieSearch/pkg/logger"
@@ -22,15 +25,20 @@ func Run(cfg *config.Config) {
 	}
 	logger.Info("logger init")
 
-	elasticSearch, err := elastic.New(elastic.Addresses(cfg.Elastic.Addresses), elastic.ConnAttempts(cfg.Elastic.ConnAttempts), elastic.ConnTimeout(cfg.Elastic.ConnTimeout))
+	es, err := elastic.New(elastic.Addresses(cfg.Elastic.Addresses), elastic.ConnAttempts(cfg.Elastic.ConnAttempts), elastic.ConnTimeout(cfg.Elastic.ConnTimeout))
 	if err != nil {
 		logger.Fatal("can't init elastic: %s", err)
 	}
 
-	_ = elasticSearch
+	moviesRepo := repo.NewMoviesRepo(es)
+	moviesUsecase := usecase.NewMovies(moviesRepo)
+
+	if err = moviesRepo.CreateIndex(context.Background()); err != nil {
+		logger.Fatal("can't create index: %s", err)
+	}
 
 	handler := gin.New()
-	v1.NewRouter(handler, logger)
+	v1.NewRouter(handler, logger, moviesUsecase)
 
 	httpServer := httpserver.New(handler, httpserver.Port(cfg.HTTP.Port))
 

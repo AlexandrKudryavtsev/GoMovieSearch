@@ -12,10 +12,10 @@ help: ## Display this help screen
 ##@ Docker Compose
 
 compose-up: ### Run docker-compose with Elasticsearch and app
-	docker-compose up --build -d elasticsearch app
+	docker-compose up --build -d elasticsearch kibana app
 
 compose-devs: ### Run docker-compose with Elasticsearch
-	docker-compose up --build -d elasticsearch
+	docker-compose up --build -d elasticsearch kibana
 
 compose-down: ### Stop and remove containers
 	docker-compose down --remove-orphans
@@ -24,7 +24,7 @@ compose-logs: ### Show logs for all services
 	docker-compose logs -f
 
 remove-volume: ### Remove docker volume
-	docker volume rm defaultservice_es-data
+	docker volume rm gomoviesearch_es-data
 
 ##@ Application
 
