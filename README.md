@@ -58,6 +58,7 @@ Structure
 │   ├── entity         # app entities
 │   └── usecase        # controller processing
 ├── migrations         # migrations files
+├── scripts            # javascript parser of kinopoisk.ru
 └── pkg                # only auxiliary code
     ├── httpserver
     ├── logger
